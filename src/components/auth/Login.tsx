@@ -9,15 +9,17 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 import Link from 'next/link'
-
+import { AuthSchema } from '@/lib/zod'
+import { cn } from '@/lib/utils'
+import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-
-import { authClient } from '@/lib/auth-client'
 import { LoaderCircle, Eye, EyeOff } from 'lucide-react'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export function Login({
   className,
@@ -29,9 +31,15 @@ export function Login({
   const {
     register,
     handleSubmit,
-  } = useForm()
+    formState: { errors }
+  } = useForm<RegisterType>({
+    resolver: zodResolver(AuthSchema),
+    mode: 'onSubmit'
+  })
 
-  async function onSubmit(data: any) {
+  type RegisterType = z.infer<typeof AuthSchema>
+
+  async function onSubmit(data: RegisterType) {
     await authClient.signIn.email(
       {
         email: data.email,
@@ -43,11 +51,13 @@ export function Login({
         },
         onSuccess: () => {
           setLoading(false)
+          toast.success('Login realizado com sucesso!')
           setTimeout(() => {
-            router.push('/')
+            router.push('/dashboard')
           }, 1500)
         },
         onError: () => {
+          toast.error('Erro ao acessar conta.')
           setLoading(false)
         },
       },
@@ -105,6 +115,17 @@ export function Login({
                   </button>
                 </div>
               </div>
+              {(errors.password || errors.email) && (
+                  <p className="text-sm text-red-500">
+                    {errors.email?.message && (
+                      <span>{errors.email.message}</span>
+                    )}
+                    <br />
+                    {errors.password?.message && (
+                      <span>{errors.password.message}</span>
+                    )}
+                  </p>
+                )}
               <Button
                 disabled={loading}
                 type="submit"
