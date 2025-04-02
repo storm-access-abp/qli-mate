@@ -1,5 +1,4 @@
 'use client'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,15 +9,17 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { toast } from "sonner"
 import Link from 'next/link'
-
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-
-import { LoaderCircle, Eye, EyeOff } from 'lucide-react'
-
+import { AuthSchema } from '@/lib/zod'
+import { cn } from '@/lib/utils'
 import { authClient } from '@/lib/auth-client'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { LoaderCircle, Eye, EyeOff } from 'lucide-react'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export function Register({
   className,
@@ -31,9 +32,15 @@ export function Register({
   const {
     register,
     handleSubmit,
-  } = useForm()
+    formState: { errors }
+  } = useForm<RegisterType>({
+    resolver: zodResolver(AuthSchema),
+    mode: 'onSubmit'
+  })
 
-  async function onSubmit(data: any) {
+  type RegisterType = z.infer<typeof AuthSchema>
+
+  async function onSubmit(data: RegisterType) {
     await authClient.signUp.email(
       {
         email: data.email,
@@ -47,12 +54,14 @@ export function Register({
         onSuccess: () => {
           setLoading(false)
           console.log('usuario cadastrado', data)
+          toast.success('Conta criada com sucesso!')
           setTimeout(() => {
             router.push('/login')
           }, 1500)
         },
         onError: (ctx: any) => {
           setLoading(false)
+          toast.error('Erro ao criar conta.')
         },
       },
     )
@@ -109,6 +118,17 @@ export function Register({
                   </button>
                 </div>
               </div>
+              {(errors.password || errors.email) && (
+                  <p className="text-sm text-red-500">
+                    {errors.email?.message && (
+                      <span>{errors.email.message}</span>
+                    )}
+                    <br />
+                    {errors.password?.message && (
+                      <span>{errors.password.message}</span>
+                    )}
+                  </p>
+                )}
               <Button
                 disabled={loading}
                 type="submit"
