@@ -20,25 +20,29 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { formSchema } from '@/lib/zod'
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-const loginSchema = formSchema.pick({
-  email: true,
-  senha: true,
-});
-
-export function Login() {
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+export function Register() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
+      nome: "",
       email: "",
       senha: "",
+      cargo: "",
     },
   });
 
@@ -46,28 +50,27 @@ export function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter()
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
-    await authClient.signIn.email(
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await authClient.admin.createUser(
       {
+        name: values.nome,
         email: values.email,
         password: values.senha,
+        role: values.cargo,
       },
       {
-        onRequest: (ctx) => {
-          console.log(ctx);
+        onRequest: () => {
           setLoading(true);
         },
-        onSuccess: (ctx: any) => {
+        onSuccess: () => {
           setLoading(false);
-          toast.success(`Bem-vindo de volta!`);
-          setTimeout(() => {
-            router.push('/dashboard')
-          }, 1500)
+          toast.success(`Conta de ${values.nome} criada com sucesso`);
+          form.reset()
+          router.refresh()
         },
-        onError: (ctx: any) => {
+        onError: () => {
           setLoading(false);
-          console.log(ctx);
-          toast.error("Erro ao acessar conta.");
+          toast.error("Erro ao criar conta.");
         },
       }
     );
@@ -76,14 +79,27 @@ export function Login() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Acessar conta</CardTitle>
+        <CardTitle className="text-2xl">Criar conta</CardTitle>
         <CardDescription>
-          Insira seu e-mail e senha abaixo para acessar sua conta.
+          Insira um e-mail e senha abaixo para registrar uma nova conta.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="nome"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -113,7 +129,7 @@ export function Login() {
                       <Button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-3 flex items-center"
+                        className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                         variant="link"
                       >
                         {showPassword ? (
@@ -128,11 +144,36 @@ export function Login() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="cargo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cargo</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    required
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione o cargo da nova conta" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="admin">Administrador</SelectItem>
+                      <SelectItem value="user">Usuário</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
               {loading ? (
                 <LoaderCircle size={16} className="animate-spin" />
               ) : (
-                "Acessar"
+                "Cadastrar"
               )}
             </Button>
           </form>
