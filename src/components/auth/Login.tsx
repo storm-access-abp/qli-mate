@@ -14,7 +14,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,11 +21,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import { formSchema } from '@/lib/zod'
+import { formSchema } from "@/lib/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 
 const loginSchema = formSchema.pick({
   email: true,
@@ -44,7 +44,7 @@ export function Login() {
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     await authClient.signIn.email(
@@ -53,16 +53,15 @@ export function Login() {
         password: values.senha,
       },
       {
-        onRequest: (ctx) => {
-          console.log(ctx);
+        onRequest: () => {
           setLoading(true);
         },
-        onSuccess: (ctx: any) => {
+        onSuccess: () => {
           setLoading(false);
           toast.success(`Bem-vindo de volta!`);
           setTimeout(() => {
-            router.push('/dashboard')
-          }, 1500)
+            router.push("/dashboard");
+          }, 1500);
         },
         onError: (ctx: any) => {
           setLoading(false);
@@ -78,7 +77,7 @@ export function Login() {
       <CardHeader>
         <CardTitle className="text-2xl">Acessar conta</CardTitle>
         <CardDescription>
-          Insira seu e-mail e senha abaixo para acessar sua conta.
+          Insira seu e-mail e senha abaixo para acessar a conta.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -90,9 +89,9 @@ export function Login() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                    <FormControl>
+                  <FormControl>
                     <Input placeholder="m@test.com" {...field} />
-                    </FormControl>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -109,7 +108,7 @@ export function Login() {
                         placeholder=""
                         type={showPassword ? "text" : "password"}
                         {...field}
-                      /> 
+                      />
                       <Button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
@@ -128,13 +127,23 @@ export function Login() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={loading}
+            >
               {loading ? (
                 <LoaderCircle size={16} className="animate-spin" />
               ) : (
                 "Acessar"
               )}
             </Button>
+            <div className="text-center text-sm">
+              Ainda não tem uma conta?{" "}
+              <Link href="/register" className="underline underline-offset-4">
+                Criar conta
+              </Link>
+            </div>
           </form>
         </Form>
       </CardContent>
