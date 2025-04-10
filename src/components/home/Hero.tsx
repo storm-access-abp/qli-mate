@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from 'next/link'
+import qliMascote from '../../../public/qli-mascote.png'
 
 export function Hero() {
   return (
@@ -27,7 +28,7 @@ export function Hero() {
             <Link href="/login">Comece agora</Link>
               </Button>
             <Button size="lg" className="w-full sm:w-auto cursor-pointer px-6 py-3 text-base" variant="outline">
-              <Link href="/saiba">Saiba mais</Link>
+              <Link href="/about">Saiba mais</Link>
               <SquareArrowOutUpRight className="size-4" />
             </Button>
           </div>
@@ -35,12 +36,10 @@ export function Hero() {
 
         <div className="flex items-center justify-end">
           <Image
-            src="/qli-mascote.png"
-            width={450}
-            height={450}
-            alt="Mascote QLI-MATE"
-            className="object-contain transition-all duration-500 hover:scale-105 drop-shadow-lg"
+            src={qliMascote}
+            alt="Mascote"
             priority
+            className="object-contain transition-all duration-500 hover:scale-105 drop-shadow-lg"
           />
         </div>
       </div>
