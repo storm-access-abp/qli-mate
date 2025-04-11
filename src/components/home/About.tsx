@@ -47,14 +47,14 @@ export function About() {
                 Jacareí para promover a segurança e o bem-estar das comunidades
                 ao redor do Lago de Furnas.
               </p>
-              <p className="leading-relaxed">
+              <p className="text-lg leading-relaxed">
                 Integrando dados de estações meteorológicas, o app fornece
                 informações climáticas confiáveis e alertas em tempo real sobre
                 ventos extremos. Com visualizações intuitivas e notificações
                 precisas, o Qli-Mate ajuda a prevenir acidentes e apoia
                 atividades econômicas como turismo e pesca.
               </p>
-              <p className="leading-relaxed">
+              <p className="text-lg leading-relaxed">
                 Sua interface amigável e foco na prevenção fazem dele uma
                 ferramenta essencial para os 34 municípios da região.
               </p>
