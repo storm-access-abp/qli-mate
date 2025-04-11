@@ -2,7 +2,7 @@
 
 <div align="center">
 <h1>
-<a href="#-descrição">Descrição</a> || <a href="#️-estrutura">Estrutura</a> || <a href="#️-tecnologias">Tecnologias</a> || <a href="#-dev-team">Dev Team</a> || <a href="#-product-backlog">Product Backlog</a> || <a href="#-scrum">Scrum</a> || <a href="#-instalação">Instalação</a> || <a href="public/docs/ABP 3DSM-1SEM-2025.pdf">Diretrizes</a>
+<a href="#-descrição">Descrição</a> || <a href="#️-estrutura">Estrutura</a> || <a href="#️-tecnologias">Tecnologias</a> || <a href="#-dev-team">Dev Team</a> || <a href="#-product-backlog">Product Backlog</a> || <a href="#-scrum">Scrum</a> || <a href="#-instalação">Instalação</a> || <a href="docs/ABP 3DSM-1SEM-2025.pdf">Diretrizes</a>
 </h1>
 </div>
 
