@@ -53,10 +53,10 @@ export function Login() {
         password: values.senha,
       },
       {
-        onRequest: () => {
+        onRequest: (ctx) => {
           setLoading(true);
         },
-        onSuccess: () => {
+        onSuccess: (ctx: any) => {
           setLoading(false);
           toast.success(`Bem-vindo de volta!`);
           setTimeout(() => {

@@ -14,26 +14,19 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import { formSchema } from '@/lib/zod'
+import { formSchema } from "@/lib/zod";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -42,21 +35,19 @@ export function Register() {
       nome: "",
       email: "",
       senha: "",
-      cargo: "",
     },
   });
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await authClient.admin.createUser(
+    await authClient.signUp.email(
       {
         name: values.nome,
         email: values.email,
         password: values.senha,
-        role: values.cargo,
       },
       {
         onRequest: () => {
@@ -64,9 +55,10 @@ export function Register() {
         },
         onSuccess: () => {
           setLoading(false);
-          toast.success(`Conta de ${values.nome} criada com sucesso`);
-          form.reset()
-          router.refresh()
+          toast.success(`Conta ${values.nome} criada com sucesso`);
+          setTimeout(() => {
+            router.push('/login')
+          }, 1500)
         },
         onError: () => {
           setLoading(false);
@@ -81,7 +73,7 @@ export function Register() {
       <CardHeader>
         <CardTitle className="text-2xl">Criar conta</CardTitle>
         <CardDescription>
-          Insira um e-mail e senha abaixo para registrar uma nova conta.
+          Insira um e-mail e senha abaixo para registrar sua conta.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -106,9 +98,9 @@ export function Register() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
-                    <FormControl>
+                  <FormControl>
                     <Input placeholder="m@test.com" {...field} />
-                    </FormControl>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -125,7 +117,7 @@ export function Register() {
                         placeholder=""
                         type={showPassword ? "text" : "password"}
                         {...field}
-                      /> 
+                      />
                       <Button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
@@ -144,38 +136,23 @@ export function Register() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="cargo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cargo</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    required
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Selecione o cargo da nova conta" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="admin">Administrador</SelectItem>
-                      <SelectItem value="user">Usuário</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={loading}
+            >
               {loading ? (
                 <LoaderCircle size={16} className="animate-spin" />
               ) : (
                 "Cadastrar"
               )}
             </Button>
+            <div className="text-center text-sm">
+              Já tem uma conta?{" "}
+              <Link href="/login" className="underline underline-offset-4">
+                Acessar conta
+              </Link>
+            </div>
           </form>
         </Form>
       </CardContent>
