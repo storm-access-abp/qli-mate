@@ -16,5 +16,17 @@ const appearanceFormSchema = z.object({
   }),
 });
 
+const changeEmailFormSchema = z.object({
+  email: z.string().email({ message: "Digite um e-mail válido" }),
+});
 
-export { formSchema, appearanceFormSchema };
+const changePasswordFormSchema = z.object({
+  senha: z
+    .string()
+    .min(5, { message: "Senha precisa ter no mínimo 5 caracteres" }),
+  novaSenha: z
+    .string()
+    .min(5, { message: "A nova senha precisa ter no mínimo 5 caracteres" }),
+});
+
+export { formSchema, appearanceFormSchema, changeEmailFormSchema, changePasswordFormSchema };
