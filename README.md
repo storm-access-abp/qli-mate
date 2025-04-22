@@ -2,12 +2,12 @@
 
 <div align="center">
 <h1>
-<a href="#-descrição">Descrição</a> || <a href="#️-estrutura">Estrutura</a> || <a href="#️-tecnologias">Tecnologias</a> || <a href="#-dev-team">Dev Team</a> || <a href="#-product-backlog">Product Backlog</a> || <a href="#-scrum">Scrum</a> || <a href="#-instalação">Instalação</a> || <a href="./docs/ABP 3DSM-1SEM-2025.pdf">Diretrizes</a>
+<a href="#-descrição">Descrição</a> || <a href="#️-estrutura">Estrutura</a> || <a href="#️-tecnologias">Tecnologias</a> || <a href="#-dev-team">Dev Team</a> || <a href="#-product-backlog">Product Backlog</a> || <a href="#-scrum">Scrum</a> || <a href="#-instalação">Instalação</a> || <a href="docs/ABP 3DSM-1SEM-2025.pdf">Diretrizes</a>
 </h1>
 </div>
 
 ## 📝 Descrição
-<img src="/public/Qli-Mate App.jpg" min-width="400px" max-width="400px" width="400px" align="left" alt="Logo do Qli-Mate">
+<img src="/public/qli-mate-app.jpg" min-width="400px" max-width="400px" width="400px" align="left" alt="Logo do Qli-Mate">
 
 <div style="text-align: justify;">
   <p style="text-align: justify;">
@@ -56,7 +56,7 @@ As principais tecnologias utilizadas neste projeto incluem:
 ## 📋 Product Backlog
 | Número | Recurso Funcional       | Síntese do Requisito                                         | Status       |
 |:------:|----------------------|:---------------------------------------------------:|:------------:|
-|  RF01  | Controle de Acesso   | Restringir acesso aos usuários cadastrados         | 🔴 Pendente  |
+|  RF01  | Controle de Acesso   | Restringir acesso aos usuários cadastrados         | 🟢 Concluído  |
 |  RF02  | Histórico de Dados   | Visualizar histórico de dados por estação em formato tabular | 🔴 Pendente  |
 |  RF03  | Visualização Gráfica | Visualizar em gráfico os parâmetros de uma estação | 🔴 Pendente  |
 |  RF04  | Comparação de Dados  | Visualizar em gráfico o mesmo parâmetro de diversas estações (comparação de valores) | 🔴 Pendente  |
@@ -66,11 +66,11 @@ As principais tecnologias utilizadas neste projeto incluem:
 |:------:|----------------------|:---------------------------------------------------:|:------------:|
 |  RNF01 | Gráficos Interativos | Exibir os resultados em gráficos interativos       | 🔴 Pendente  |
 |  RNF02 | Interface Responsiva | Garantir que a interface seja responsiva, mantendo um layout consistente em diferentes dimensões de tela | 🔴 Pendente  |
-|  RNF03 | Página Explicativa   | Página com a explicação do projeto                 | 🔴 Pendente  |
+|  RNF03 | Página Explicativa   | Página com a explicação do projeto                 | 🟢 Concluído  |
 
 ## 🔄 Scrum
 | Sprint  | Início        | Finalização   | Status           |
 |:-------:|:-------------:|:-------------:|:----------------:|
-| Sprint 1 | 24/03/2025   | 15/04/2025    | 🟡 Em Andamento |
+| Sprint 1 | 24/03/2025   | 15/04/2025    | 🟢 Concluído    |
 | Sprint 2 | 16/04/2025   | 13/05/2025    | 🔴 Pendente     |
 | Sprint 3 | 14/05/2025   | 10/06/2025    | 🔴 Pendente     |
