@@ -2,7 +2,7 @@
 
 <div align="center">
 <h1>
-<a href="#-descrição">Descrição</a> || <a href="#️-estrutura">Estrutura</a> || <a href="#️-tecnologias">Tecnologias</a> || <a href="#-dev-team">Dev Team</a> || <a href="#-product-backlog">Product Backlog</a> || <a href="#-scrum">Scrum</a> || <a href="#-instalação">Instalação</a> || <a href="docs/ABP 3DSM-1SEM-2025.pdf">Diretrizes</a>
+<a href="#-descrição">Descrição</a> || <a href="#️-estrutura">Estrutura</a> || <a href="#️-tecnologias">Tecnologias</a> || <a href="#-dev-team">Dev Team</a> || <a href="#-product-backlog">Product Backlog</a> || <a href="#-scrum">Scrum</a> || <a href="#-instalação">Instalação</a> || <a href="public/docs/ABP 3DSM-1SEM-2025.pdf">Diretrizes</a>
 </h1>
 </div>
 
@@ -68,9 +68,79 @@ As principais tecnologias utilizadas neste projeto incluem:
 |  RNF02 | Interface Responsiva | Garantir que a interface seja responsiva, mantendo um layout consistente em diferentes dimensões de tela | 🔴 Pendente  |
 |  RNF03 | Página Explicativa   | Página com a explicação do projeto                 | 🟢 Concluído  |
 
+Aqui está um tutorial em Markdown para o GitHub com as instruções fornecidas, incluindo como instalar o `pnpm` globalmente:
+
+## ⚙️ Instalação
+
+Este tutorial contém as etapas para configurar e rodar o projeto localmente, bem como as instruções para instalar o `pnpm` globalmente.
+
+### 1. Instalação do `pnpm`
+
+O `pnpm` é um gerenciador de pacotes rápido e eficiente. Para instalá-lo globalmente, siga as etapas abaixo:
+
+### Instalar `pnpm` globalmente
+
+Para instalar o `pnpm` no seu sistema, use o seguinte comando no terminal:
+
+```bash
+npm install -g pnpm
+```
+
+Isso instalará o `pnpm` globalmente, permitindo que você o use em qualquer projeto.
+
+### 2. Configuração do Projeto
+
+Após instalar o `pnpm`, siga as etapas abaixo para configurar o seu ambiente localmente.
+
+#### Passo 1: Instalar dependências do projeto
+
+No diretório raiz do projeto, execute o seguinte comando para instalar todas as dependências necessárias:
+
+```bash
+pnpm i
+```
+
+#### Passo 2: Criar o usuário
+
+Em seguida, execute o comando abaixo para criar o usuário:
+
+```bash
+pnpm run cria-user
+```
+
+#### Passo 3: Rodar o ambiente de desenvolvimento
+
+Agora, você pode rodar o ambiente de desenvolvimento local com o seguinte comando:
+
+```bash
+pnpm run dev
+```
+
+Isso iniciará o servidor de desenvolvimento, e você poderá acessar a aplicação localmente.
+
+### 3. Links úteis para autenticação e gerenciamento de sessões
+
+- [Gerenciamento de Sessões - Better Auth](https://www.better-auth.com/docs/concepts/session-management#get-session)
+- [Documentação de Autenticação do Next.js](https://nextjs.org/docs/pages/building-your-application/authentication)
+
+### 4. Configurações de PowerShell (se necessário)
+
+Se você estiver utilizando o PowerShell no Windows e encontrar problemas ao rodar scripts, você pode precisar ajustar a política de execução para permitir a execução de scripts. Use o seguinte comando:
+
+```bash
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+```
+
+Isso ajusta a política de execução para o seu usuário atual e permite que você execute scripts sem restrições.
+
+### 5. Convenções de Commit
+
+Para seguir boas práticas de commits no seu projeto, você pode consultar as convenções recomendadas no repositório [Padrões de Commits](https://github.com/iuricode/padroes-de-commits).
+
 ## 🔄 Scrum
 | Sprint  | Início        | Finalização   | Status           |
 |:-------:|:-------------:|:-------------:|:----------------:|
-| Sprint 1 | 24/03/2025   | 15/04/2025    | 🟢 Concluído    |
+| [Sprint 1](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog1.md) | 24/03/2025   | 15/04/2025    | 🟢 Concluído    |
 | Sprint 2 | 16/04/2025   | 13/05/2025    | 🔴 Pendente     |
 | Sprint 3 | 14/05/2025   | 10/06/2025    | 🔴 Pendente     |
+
