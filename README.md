@@ -58,13 +58,13 @@ As principais tecnologias utilizadas neste projeto incluem:
 |:------:|----------------------|:---------------------------------------------------:|:------------:|
 |  RF01  | Controle de Acesso   | Restringir acesso aos usuários cadastrados         | 🟢 Concluído  |
 |  RF02  | Histórico de Dados   | Visualizar histórico de dados por estação em formato tabular | 🔴 Pendente  |
-|  RF03  | Visualização Gráfica | Visualizar em gráfico os parâmetros de uma estação | 🔴 Pendente  |
+|  RF03  | Visualização Gráfica | Visualizar em gráfico os parâmetros de uma estação | 🟢 Concluído  |
 |  RF04  | Comparação de Dados  | Visualizar em gráfico o mesmo parâmetro de diversas estações (comparação de valores) | 🔴 Pendente  |
 |  RF05  | Exportação de Dados  | Download de dados em formato CSV                   | 🔴 Pendente  |
 
 | Número | Recurso Não-Funcional   | Síntese do Requisito                                         | Status       |
 |:------:|----------------------|:---------------------------------------------------:|:------------:|
-|  RNF01 | Gráficos Interativos | Exibir os resultados em gráficos interativos       | 🔴 Pendente  |
+|  RNF01 | Gráficos Interativos | Exibir os resultados em gráficos interativos       | 🟢 Concluído  |
 |  RNF02 | Interface Responsiva | Garantir que a interface seja responsiva, mantendo um layout consistente em diferentes dimensões de tela | 🔴 Pendente  |
 |  RNF03 | Página Explicativa   | Página com a explicação do projeto                 | 🟢 Concluído  |
 
