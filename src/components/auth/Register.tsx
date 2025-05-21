@@ -10,6 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter
 } from "@/components/ui/card";
 import {
   Form,
@@ -27,6 +28,7 @@ import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import GoogleButton from "./google/GoogleButton";
 
 export function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,8 +59,8 @@ export function Register() {
           setLoading(false);
           toast.success(`Conta ${values.nome} criada com sucesso`);
           setTimeout(() => {
-            router.push('/login')
-          }, 1500)
+            router.push("/login");
+          }, 1500);
         },
         onError: () => {
           setLoading(false);
@@ -156,6 +158,14 @@ export function Register() {
           </form>
         </Form>
       </CardContent>
+      <CardFooter className="flex flex-col items-center gap-4">
+        <div className="flex items-center w-full gap-2">
+          <hr className="flex-grow h-px bg-gray-200 dark:bg-gray-700 border-0" />
+          <span className="text-gray-900 dark:text-gray-100 text-sm">OU</span>
+          <hr className="flex-grow h-px bg-gray-200 dark:bg-gray-700 border-0" />
+        </div>
+        <GoogleButton />
+      </CardFooter>
     </Card>
   );
 }

@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,6 +28,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import GoogleButton from "./google/GoogleButton";
 
 const loginSchema = formSchema.pick({
   email: true,
@@ -53,10 +55,10 @@ export function Login() {
         password: values.senha,
       },
       {
-        onRequest: (ctx) => {
+        onRequest: () => {
           setLoading(true);
         },
-        onSuccess: (ctx: any) => {
+        onSuccess: () => {
           setLoading(false);
           toast.success(`Bem-vindo de volta!`);
           setTimeout(() => {
@@ -65,7 +67,7 @@ export function Login() {
         },
         onError: (ctx: any) => {
           setLoading(false);
-          console.log(ctx);
+          console.log(ctx.error);
           toast.error("Erro ao acessar conta.");
         },
       }
@@ -147,6 +149,16 @@ export function Login() {
           </form>
         </Form>
       </CardContent>
+      <CardFooter className="flex flex-col items-center gap-4">
+        <div className="flex items-center w-full gap-2">
+          <hr className="flex-grow h-px bg-gray-200 dark:bg-gray-700 border-0"/>
+          <span className="text-gray-900 dark:text-gray-100 text-sm">
+            OU
+          </span>
+          <hr className="flex-grow h-px bg-gray-200 dark:bg-gray-700 border-0"/>
+        </div>
+        <GoogleButton />
+      </CardFooter>
     </Card>
   );
 }
