@@ -6,8 +6,8 @@ import { ArrowRight } from "lucide-react";
 
 export function About() {
   return (
-    <section className="pt-16 bg-gradient-to-b from-white to-slate-50">
-      <div className="container mx-auto px-4">
+    // bg-[var(--hero-background)]
+    <div className="relative isolate flex flex-grow w-full items-center justify-center px-6 py-20 bg-[var(--hero-background)] ">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative group">
             <div className="relative w-full h-[450px] rounded-2xl shadow-xl">
@@ -47,14 +47,14 @@ export function About() {
                 Jacareí para promover a segurança e o bem-estar das comunidades
                 ao redor do Lago de Furnas.
               </p>
-              <p className="text-lg leading-relaxed">
+              <p className="leading-relaxed">
                 Integrando dados de estações meteorológicas, o app fornece
                 informações climáticas confiáveis e alertas em tempo real sobre
                 ventos extremos. Com visualizações intuitivas e notificações
                 precisas, o Qli-Mate ajuda a prevenir acidentes e apoia
                 atividades econômicas como turismo e pesca.
               </p>
-              <p className="text-lg leading-relaxed">
+              <p className="leading-relaxed">
                 Sua interface amigável e foco na prevenção fazem dele uma
                 ferramenta essencial para os 34 municípios da região.
               </p>
@@ -65,7 +65,6 @@ export function About() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+    </div>
   );
 }

@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
 	//Aplica o middleware em todas as rotas, exceto:
 	matcher: [
-	  '/((?!api|_next/static|_next/image|favicon.ico|public|sitemap.xml|login|register|about|$).*)',
+	  '/((?!api|_next/static|_next/image|favicon.ico|public|sitemap.xml|login|register|about|dashboard|$).*)',
 	],
   };
   

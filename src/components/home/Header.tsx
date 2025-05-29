@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Sun } from 'lucide-react'
+import { ModeToggle } from '../toggle'
 
 export default function Header() {
   return (
@@ -17,6 +18,7 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex gap-3">
+        <ModeToggle />
         <Button className="font-medium">
           <Link href="/login">Acessar</Link>
         </Button>

@@ -22,21 +22,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { formSchema } from "@/lib/zod";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const loginSchema = formSchema.pick({
-  email: true,
-  senha: true,
-});
-
-export function Login() {
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+export function Register() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
+      nome: "",
       email: "",
       senha: "",
     },
@@ -46,27 +42,27 @@ export function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
-    await authClient.signIn.email(
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await authClient.signUp.email(
       {
+        name: values.nome,
         email: values.email,
         password: values.senha,
       },
       {
-        onRequest: (ctx) => {
+        onRequest: () => {
           setLoading(true);
         },
-        onSuccess: (ctx: any) => {
+        onSuccess: () => {
           setLoading(false);
-          toast.success(`Bem-vindo de volta!`);
+          toast.success(`Conta ${values.nome} criada com sucesso`);
           setTimeout(() => {
-            router.push("/dashboard");
-          }, 1500);
+            router.push('/login')
+          }, 1500)
         },
-        onError: (ctx: any) => {
+        onError: () => {
           setLoading(false);
-          console.log(ctx);
-          toast.error("Erro ao acessar conta.");
+          toast.error("Erro ao criar conta.");
         },
       }
     );
@@ -75,14 +71,27 @@ export function Login() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Acessar conta</CardTitle>
+        <CardTitle className="text-2xl">Criar conta</CardTitle>
         <CardDescription>
-          Insira seu e-mail e senha abaixo para acessar a conta.
+          Insira um e-mail e senha abaixo para registrar sua conta.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="nome"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -112,7 +121,7 @@ export function Login() {
                       <Button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-3 flex items-center"
+                        className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                         variant="link"
                       >
                         {showPassword ? (
@@ -135,13 +144,13 @@ export function Login() {
               {loading ? (
                 <LoaderCircle size={16} className="animate-spin" />
               ) : (
-                "Acessar"
+                "Cadastrar"
               )}
             </Button>
             <div className="text-center text-sm">
-              Ainda não tem uma conta?{" "}
-              <Link href="/register" className="underline underline-offset-4">
-                Criar conta
+              Já tem uma conta?{" "}
+              <Link href="/login" className="underline underline-offset-4">
+                Acessar conta
               </Link>
             </div>
           </form>

@@ -5,13 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -21,87 +14,62 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
-import { formSchema } from "@/lib/zod";
-import { useRouter } from "next/navigation";
+import { changePasswordFormSchema } from "@/lib/zod";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
 
-const loginSchema = formSchema.pick({
-  email: true,
-  senha: true,
-});
-
-export function Login() {
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+export function ChangePassword() {
+  const form = useForm<z.infer<typeof changePasswordFormSchema>>({
+    resolver: zodResolver(changePasswordFormSchema),
     defaultValues: {
-      email: "",
       senha: "",
+      novaSenha: "",
     },
   });
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  // const router = useRouter();
 
-  async function onSubmit(values: z.infer<typeof loginSchema>) {
-    await authClient.signIn.email(
+  async function onSubmit(values: z.infer<typeof changePasswordFormSchema>) {
+    await authClient.changePassword(
       {
-        email: values.email,
-        password: values.senha,
+        newPassword: values.novaSenha,
+        currentPassword: values.senha,
+        revokeOtherSessions: true,
       },
       {
-        onRequest: (ctx) => {
+        onRequest: () => {
           setLoading(true);
         },
-        onSuccess: (ctx: any) => {
+        onSuccess: () => {
           setLoading(false);
-          toast.success(`Bem-vindo de volta!`);
-          setTimeout(() => {
-            router.push("/dashboard");
-          }, 1500);
+          toast.success("Senha atualizado com sucesso!");
+          form.reset();
+          // router.refresh();
         },
-        onError: (ctx: any) => {
+        onError: () => {
           setLoading(false);
-          console.log(ctx);
-          toast.error("Erro ao acessar conta.");
+          toast.error("Erro ao atualizar nova senha.");
         },
       }
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-2xl">Acessar conta</CardTitle>
-        <CardDescription>
-          Insira seu e-mail e senha abaixo para acessar a conta.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <>
+      <div className="max-w-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="m@test.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="senha"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>Senha atual</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
@@ -112,10 +80,41 @@ export function Login() {
                       <Button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-3 flex items-center"
+                        className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                         variant="link"
                       >
                         {showPassword ? (
+                          <Eye className="h-5 w-5" />
+                        ) : (
+                          <EyeOff className="h-5 w-5" />
+                        )}
+                      </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="novaSenha"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Senha nova</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        placeholder=""
+                        type={showNewPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <Button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                        variant="link"
+                      >
+                        {showNewPassword ? (
                           <Eye className="h-5 w-5" />
                         ) : (
                           <EyeOff className="h-5 w-5" />
@@ -135,18 +134,12 @@ export function Login() {
               {loading ? (
                 <LoaderCircle size={16} className="animate-spin" />
               ) : (
-                "Acessar"
+                "Alterar senha"
               )}
             </Button>
-            <div className="text-center text-sm">
-              Ainda não tem uma conta?{" "}
-              <Link href="/register" className="underline underline-offset-4">
-                Criar conta
-              </Link>
-            </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </>
   );
 }
