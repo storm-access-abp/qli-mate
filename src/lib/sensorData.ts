@@ -33,6 +33,20 @@ export interface HourlyWindData {
   wind_peak: number; // Pico de vento (m/s)
 }
 
+export interface TableSensorData {
+  reading_time: string;
+  temp: number;
+  hum: number;
+  uv_level: number;
+  bar: number;
+  wind_peak: number;
+  wind_rt: number;
+  wind_avg: number;
+  wind_dir_rt: number;
+  wind_dir_avg: number;
+}
+
+
 export async function getLatestSensorData(): Promise<SensorData> {
   const results = (await query(
     'SELECT Id, Temp, Hum, cab_temp, bat_volts, uv_level, Bar, wind_peak, wind_rt, wind_avg, wind_dir_rt, wind_dir_avg, reading_time ' +
@@ -84,4 +98,36 @@ export async function getHourlyWindData(hours: number): Promise<HourlyWindData[]
   }
 
   return results;
+}
+
+export async function getTableSensorData(page: number, pageSize: number = 50): Promise<TableSensorData[]> {
+  const offset = page * pageSize;
+  
+  const results = await query(
+    `SELECT 
+      reading_time,
+      CAST(Temp AS DECIMAL(10,2)) AS temp,
+      CAST(Hum AS DECIMAL(10,2)) AS hum,
+      CAST(uv_level AS DECIMAL(10,2)) AS uv_level,
+      CAST(Bar AS DECIMAL(10,2)) AS bar,
+      CAST(wind_peak AS DECIMAL(10,2)) AS wind_peak,
+      CAST(wind_rt AS DECIMAL(10,2)) AS wind_rt,
+      CAST(wind_avg AS DECIMAL(10,2)) AS wind_avg,
+      CAST(wind_dir_rt AS DECIMAL(10,2)) AS wind_dir_rt,
+      CAST(wind_dir_avg AS DECIMAL(10,2)) AS wind_dir_avg
+     FROM Sensor 
+     ORDER BY reading_time DESC
+     LIMIT ? OFFSET ?`,
+    [pageSize, offset]
+  ) as TableSensorData[];
+
+  return results || [];
+}
+
+export async function getTotalSensorRecords(): Promise<number> {
+  const result = await query(
+    `SELECT COUNT(*) AS total FROM Sensor`
+  ) as any[];
+  
+  return result[0]?.total || 0;
 }
