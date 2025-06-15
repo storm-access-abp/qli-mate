@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, SquareArrowOutUpRight } from "lucide-react";
+import { ArrowRight, SquareArrowOutUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import qliMascote from "../../../public/qli-sol.png";
 import qliMascoteDormindo from "../../../public/qli-sol-dormindo.png";
 import { useTheme } from "next-themes";
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 
 const ThemedImage = () => {
   const { resolvedTheme } = useTheme();
@@ -45,8 +46,10 @@ export function Hero() {
       <div className="grid w-full max-w-7xl grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-start justify-center gap-6">
           <Badge variant="secondary" className="px-3 py-1 text-sm">
-            ☀️ Seu site para controle de clima
-            <ArrowUpRight className="ml-2 h-4 w-4" />
+            <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+              ☀️ Seu site para controle de clima
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </AnimatedShinyText>
           </Badge>
           <h1 className="text-4xl font-bold leading-tight tracking-tight lg:text-8xl">
             Qli-mate

@@ -11,4 +11,9 @@ async function userSession() {
     return { name: session?.user?.name, email: session?.user?.email }
 }
 
-export { checkAdm, userSession }
+async function checkGoogle() {
+    const session = await auth.api.getSession({ headers: await headers() })
+    return !!session?.user.emailVerified
+}
+
+export { checkAdm, userSession, checkGoogle }
