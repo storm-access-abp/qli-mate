@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
+  Tooltip
 } from "recharts";
 
 import {
@@ -20,46 +21,81 @@ import {
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// Exemplo de dados simulados de pico de vento (últimas 24h)
-const windData = [
-  { time: "2025-06-12T14:00", ventoMax: 0.16 },
-  { time: "2025-06-12T15:00", ventoMax: 2.35 },
-  { time: "2025-06-12T16:00", ventoMax: 3.21 },
-  { time: "2025-06-12T17:00", ventoMax: 5.42 },
-  { time: "2025-06-12T18:00", ventoMax: 6.34 },
-  { time: "2025-06-12T19:00", ventoMax: 8.12 },
-  { time: "2025-06-12T20:00", ventoMax: 7.89 },
-  { time: "2025-06-12T21:00", ventoMax: 9.16 },
-  { time: "2025-06-12T22:00", ventoMax: 10.34 },
-  { time: "2025-06-12T23:00", ventoMax: 12.56 },
-  { time: "2025-06-13T00:00", ventoMax: 11.98 },
-  { time: "2025-06-13T01:00", ventoMax: 9.45 },
-  { time: "2025-06-13T02:00", ventoMax: 8.76 },
-  { time: "2025-06-13T03:00", ventoMax: 7.65 },
-  { time: "2025-06-13T04:00", ventoMax: 11.67 },
-  { time: "2025-06-13T05:00", ventoMax: 13.89 },
-  { time: "2025-06-13T06:00", ventoMax: 14.46 },
-  { time: "2025-06-13T07:00", ventoMax: 12.76 },
-  { time: "2025-06-13T08:00", ventoMax: 10.34 },
-  { time: "2025-06-13T09:00", ventoMax: 9.16 },
-  { time: "2025-06-13T10:00", ventoMax: 11.98 },
-  { time: "2025-06-13T11:00", ventoMax: 13.12 }, // pico
-  { time: "2025-06-13T12:00", ventoMax: 12.78 },
-  { time: "2025-06-13T13:00", ventoMax: 11.34 }
-];
+// Formata o valor para exibição no tooltip
+const formatValue = (value: number) => `${value.toFixed(2)} km/h`;
 
-const chartConfig = {
-  ventoMax: {
-    label: "Pico de Vento (km/h)",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
+// Formata o rótulo do tooltip (data/hora)
+const formatLabel = (value: string) => 
+  new Date(value).toLocaleString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    day: "2-digit",
+    month: "short",
+  });
 
 export function LineWindChart() {
+  const [windData, setWindData] = React.useState<{ time: string; ventoMax: number }[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchWindData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/wind-data');
+        
+        if (!response.ok) {
+          throw new Error('Erro ao buscar dados do vento');
+        }
+        
+        const hourlyData = await response.json();
+        const convertedData = hourlyData.map((item: any) => ({
+          time: item.time,
+          ventoMax: Math.round(item.wind_peak * 3.6 * 100) / 100
+        }));
+        
+        setWindData(convertedData);
+      } catch (error) {
+        console.error("Erro ao buscar dados do vento:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWindData();
+    const interval = setInterval(fetchWindData, 300000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (loading) {
+    return (
+      <Card>
+        <CardHeader className="px-6 py-5">
+          <CardTitle>Intensidade do Vento</CardTitle>
+          <CardDescription>Últimas 24 horas</CardDescription>
+        </CardHeader>
+        <CardContent className="h-[250px] flex items-center justify-center">
+          <p>Carregando dados...</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (windData.length === 0) {
+    return (
+      <Card>
+        <CardHeader className="px-6 py-5">
+          <CardTitle>Intensidade do Vento</CardTitle>
+          <CardDescription>Últimas 24 horas</CardDescription>
+        </CardHeader>
+        <CardContent className="h-[250px] flex items-center justify-center">
+          <p>Nenhum dado disponível</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardHeader className="px-6 py-5">
@@ -96,28 +132,26 @@ export function LineWindChart() {
               tickMargin={8}
               unit=" km/h"
             />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  className="w-[180px]"
-                  nameKey="ventoMax"
-                  labelFormatter={(value) =>
-                    new Date(value).toLocaleString("pt-BR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      day: "2-digit",
-                      month: "short",
-                    })
-                  }
-                />
-              }
+            <Tooltip
+              content={({ active, payload, label }) => {
+                if (!active || !payload || payload.length === 0) return null;
+                
+                return (
+                  <div className="bg-white p-3 border rounded-md shadow-lg">
+                    <p className="font-medium">{formatLabel(label)}</p>
+                    <p className="text-sm">
+                      {`${chartConfig.ventoMax.label}: ${formatValue(payload[0].value as number)}`}
+                    </p>
+                  </div>
+                );
+              }}
             />
             <Line
               type="monotone"
               dataKey="ventoMax"
-              stroke="var(--color-ventoMax)"
+              stroke="hsl(var(--chart-1))"
               strokeWidth={2}
-              dot
+              dot={{ r: 3 }}
               activeDot={{ r: 6 }}
             />
           </LineChart>
@@ -126,3 +160,10 @@ export function LineWindChart() {
     </Card>
   );
 }
+
+const chartConfig = {
+  ventoMax: {
+    label: "Pico de Vento (km/h)",
+    color: "hsl(var(--chart-1))",
+  },
+} satisfies ChartConfig;

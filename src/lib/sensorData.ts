@@ -28,6 +28,10 @@ export interface DailySensorData {
   min: number;
 }
 
+export interface HourlyWindData {
+  time: string; // Data e hora (formato: YYYY-MM-DD HH:MM:SS)
+  wind_peak: number; // Pico de vento (m/s)
+}
 
 export async function getLatestSensorData(): Promise<SensorData> {
   const results = (await query(
@@ -59,5 +63,25 @@ export async function getDailyMinMax(days: number): Promise<DailySensorData[]> {
     throw new Error('Nenhum dado do sensor encontrado');
   }
   
+  return results;
+}
+
+// Nova função para obter dados de vento por hora
+export async function getHourlyWindData(hours: number): Promise<HourlyWindData[]> {
+  const results = await query(
+    `SELECT 
+      DATE_FORMAT(reading_time, '%Y-%m-%dT%H:00') AS time,
+      MAX(wind_peak) AS wind_peak
+     FROM Sensor
+     WHERE reading_time >= DATE_SUB(NOW(), INTERVAL ? HOUR)
+     GROUP BY DATE_FORMAT(reading_time, '%Y%m%d%H')
+     ORDER BY time ASC`,
+    [hours]
+  ) as HourlyWindData[];
+
+  if (!results) {
+    throw new Error('Nenhum dado do vento encontrado');
+  }
+
   return results;
 }
