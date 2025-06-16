@@ -56,16 +56,16 @@ As principais tecnologias utilizadas neste projeto incluem:
 ## 📋 Product Backlog
 | Número | Recurso Funcional       | Síntese do Requisito                                         | Status       |
 |:------:|----------------------|:---------------------------------------------------:|:------------:|
-|  RF01  | Controle de Acesso   | Restringir acesso aos usuários cadastrados         | 🟢 Concluído  |
-|  RF02  | Histórico de Dados   | Visualizar histórico de dados por estação em formato tabular | 🔴 Pendente  |
+|  RF01  | Controle de Acesso   | Restringir acesso aos usuários cadastrados          | 🟢 Concluído  |
+|  RF02  | Histórico de Dados   | Visualizar histórico de dados por estação em formato tabular | 🟢 Concluído |
 |  RF03  | Visualização Gráfica | Visualizar em gráfico os parâmetros de uma estação | 🟢 Concluído  |
-|  RF04  | Comparação de Dados  | Visualizar em gráfico o mesmo parâmetro de diversas estações (comparação de valores) | 🔴 Pendente  |
-|  RF05  | Exportação de Dados  | Download de dados em formato CSV                   | 🔴 Pendente  |
+|  RF04  | Comparação de Dados  | Visualizar em gráfico comparações de valores) | 🟢 Concluído  |
+|  RF05  | Exportação de Dados  | Download de dados em formato CSV                   | 🟢 Concluído |
 
 | Número | Recurso Não-Funcional   | Síntese do Requisito                                         | Status       |
 |:------:|----------------------|:---------------------------------------------------:|:------------:|
 |  RNF01 | Gráficos Interativos | Exibir os resultados em gráficos interativos       | 🟢 Concluído  |
-|  RNF02 | Interface Responsiva | Garantir que a interface seja responsiva, mantendo um layout consistente em diferentes dimensões de tela | 🔴 Pendente  |
+|  RNF02 | Interface Responsiva | Garantir que a interface seja responsiva, mantendo um layout consistente em diferentes dimensões de tela | 🟢 Concluído |
 |  RNF03 | Página Explicativa   | Página com a explicação do projeto                 | 🟢 Concluído  |
 
 Aqui está um tutorial em Markdown para o GitHub com as instruções fornecidas, incluindo como instalar o `pnpm` globalmente:
@@ -141,6 +141,6 @@ Para seguir boas práticas de commits no seu projeto, você pode consultar as co
 | Sprint  | Início        | Finalização   | Status           |
 |:-------:|:-------------:|:-------------:|:----------------:|
 | [Sprint 1](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog1.md) | 24/03/2025   | 15/04/2025    | 🟢 Concluído    |
-| Sprint 2 | 16/04/2025   | 13/05/2025    | 🔴 Pendente     |
-| Sprint 3 | 14/05/2025   | 10/06/2025    | 🔴 Pendente     |
+| [Sprint 2](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog2.md) | 16/04/2025   | 13/05/2025    | 🟢 Concluído    |
+| [Sprint 3](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog3.md) | 14/05/2025   | 10/06/2025    | 🟢 Concluído    |
 
