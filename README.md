@@ -138,9 +138,8 @@ Isso ajusta a política de execução para o seu usuário atual e permite que vo
 Para seguir boas práticas de commits no seu projeto, você pode consultar as convenções recomendadas no repositório [Padrões de Commits](https://github.com/iuricode/padroes-de-commits).
 
 ## 🔄 Scrum
-| Sprint  | Início        | Finalização   | Status           |
-|:-------:|:-------------:|:-------------:|:----------------:|
-| [Sprint 1](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog1.md) | 24/03/2025   | 15/04/2025    | 🟢 Concluído    |
-| [Sprint 2](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog2.md) | 16/04/2025   | 13/05/2025    | 🟢 Concluído    |
-| [Sprint 3](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog3.md) | 14/05/2025   | 10/06/2025    | 🟢 Concluído    |
-
+| Sprint  | Início        | Finalização   | Status        | 📉 Burndown Chart |
+|:-------:|:-------------:|:-------------:|:-------------:|:-----------------:|
+| [Sprint 1](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog1.md) | 24/03/2025 | 15/04/2025 | 🟢 Concluído | [Ver Gráfico](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/Burndown/Burndown_Sprint_1%C2%B0.png) |
+| [Sprint 2](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog2.md) | 16/04/2025 | 13/05/2025 | 🟢 Concluído | [Ver Gráfico](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/Burndown/Burndown_Sprint_2%C2%B0.png) |
+| [Sprint 3](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/sprintbacklog3.md) | 14/05/2025 | 10/06/2025 | 🟢 Concluído | [Ver Gráfico](https://github.com/storm-access-abp/qli-mate/blob/main/public/docs/Burndown/Burndown_Sprint_3%C2%B0.png) |
