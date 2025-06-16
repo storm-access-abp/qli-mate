@@ -58,14 +58,12 @@ export const DataTable: React.FC<DataTableProps> = ({ stationName }) => {
     fetchData();
   }, [currentPage]);
 
-  // Função segura para formatar números
   const safeNumber = (value: any, decimals: number = 1) => {
     const num = parseFloat(value);
     return isNaN(num) ? "N/A" : num.toFixed(decimals);
   };
 
   const downloadCSV = () => {
-    // Função segura para valores do CSV
     const safeValue = (value: any) => {
       const num = parseFloat(value);
       return isNaN(num) ? "" : num.toString();
@@ -140,7 +138,7 @@ export const DataTable: React.FC<DataTableProps> = ({ stationName }) => {
   return (
     <div className="flex flex-col h-full space-y-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-        <div className="text-sm text-slate-600">
+        <div className="text-muted-foreground text-sm">
           Mostrando {startIndex + 1}-{endIndex} de {totalRecords} registros
         </div>
         <Button onClick={downloadCSV} variant="outline" size="sm">
@@ -167,7 +165,10 @@ export const DataTable: React.FC<DataTableProps> = ({ stationName }) => {
           </thead>
           <tbody>
             {tableData.map((row, index) => (
-              <tr key={index} className="hover:bg-slate-50">
+              <tr 
+                key={index} 
+                className="hover:bg-slate-50 dark:hover:bg-[rgb(15,23,42)] dark:hover:text-white"
+              >
                 <td className="border border-slate-300 px-3 py-2">
                   {format(new Date(row.reading_time), "dd/MM/yy HH:mm")}
                 </td>

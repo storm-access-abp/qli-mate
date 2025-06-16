@@ -21,12 +21,12 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// Formata o valor para exibição no tooltip
 const formatValue = (value: number) => `${value.toFixed(2)} km/h`;
 
-// Formata o rótulo do tooltip (data/hora)
 const formatLabel = (value: string) => 
   new Date(value).toLocaleString("pt-BR", {
     hour: "2-digit",
@@ -38,6 +38,35 @@ const formatLabel = (value: string) =>
 export function LineWindChart() {
   const [windData, setWindData] = React.useState<{ time: string; ventoMax: number }[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+
+  // Verificar modo escuro ao montar e quando houver mudanças
+  React.useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(
+        document.documentElement.classList.contains("dark") ||
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      );
+    };
+
+    checkDarkMode();
+    
+    // Observar mudanças no tema
+    const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const observer = new MutationObserver(checkDarkMode);
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    
+    darkModeMediaQuery.addEventListener("change", checkDarkMode);
+    
+    return () => {
+      observer.disconnect();
+      darkModeMediaQuery.removeEventListener("change", checkDarkMode);
+    };
+  }, []);
 
   React.useEffect(() => {
     const fetchWindData = async () => {
@@ -132,26 +161,28 @@ export function LineWindChart() {
               tickMargin={8}
               unit=" km/h"
             />
-            <Tooltip
-              content={({ active, payload, label }) => {
-                if (!active || !payload || payload.length === 0) return null;
-                
-                return (
-                  <div className="bg-white p-3 border rounded-md shadow-lg">
-                    <p className="font-medium">{formatLabel(label)}</p>
-                    <p className="text-sm">
-                      {`${chartConfig.ventoMax.label}: ${formatValue(payload[0].value as number)}`}
-                    </p>
-                  </div>
-                );
-              }}
+            <ChartTooltip
+              content={
+                <ChartTooltipContent
+                  className="w-[180px]"
+                  nameKey="ventoMax"
+                  labelFormatter={(value) =>
+                    new Date(value).toLocaleString("pt-BR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      day: "2-digit",
+                      month: "short",
+                    })
+                  }
+                />
+              }
             />
             <Line
               type="monotone"
               dataKey="ventoMax"
-              stroke="hsl(var(--chart-1))"
+              stroke="var(--color-ventoMax)"
               strokeWidth={2}
-              dot={{ r: 3 }}
+              dot
               activeDot={{ r: 6 }}
             />
           </LineChart>
