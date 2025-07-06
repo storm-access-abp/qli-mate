@@ -1,6 +1,5 @@
 import React from "react";
 import { Component } from "@/components/dashboard/home/chart";
-import { LineWindChart } from "@/components/dashboard/home/bar-chart";
 import { WeatherCard } from "@/components/dashboard/home/WeatherCard";
 import { WindCompass } from "@/components/dashboard/home/alert";
 import { Thermometer, Droplets, CircleGauge, Sunset } from 'lucide-react';
@@ -51,11 +50,8 @@ export default async function Teste() {
       <div className="col-span-3 col-start-1 row-start-2">
         <Component />
       </div>
-      <div className="col-span-4 col-start-1 row-start-3">
-        <LineWindChart />
-      </div>
       <div className="row-span-1 col-start-4 row-start-2">
-        <WeatherCard title="Wind Status" color="#4FC3F7">
+        <WeatherCard title="Condição do vento" color="#4FC3F7">
           <WindCompass
             currentDirection={sensorData?.wind_dir_rt || 0}
             currentIntensity={sensorData?.wind_rt || 0}

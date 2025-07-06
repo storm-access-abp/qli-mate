@@ -5,7 +5,7 @@ import { admin } from "better-auth/plugins"
 import { nextCookies } from "better-auth/next-js";
 
 //Tente com 127.0.0.1:27017 ou localhost:27017
-const client = new MongoClient("mongodb://127.0.0.1:27017/qli-mate-teste");
+const client = new MongoClient("mongodb://127.0.0.1:27017/qli-mate");
 const db = client.db();
 
 export const auth = betterAuth({
